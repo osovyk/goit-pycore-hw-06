@@ -23,14 +23,14 @@ class Phone(Field):
 
 
 class Record:
-    def __init__(self, contact_name):
+    def __init__(self, contact_name: str):
         self.name = Name(contact_name)
         self.phones = []
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
-    def add_phone(self, contact_number):
+    def add_phone(self, contact_number: str):
         self.phones.append(Phone(contact_number))
 
     def edit_phone(self, old_number: str, new_number: str):
@@ -44,6 +44,19 @@ class Record:
     def find_phone(self, contact_number: str):
         found_phones = [phone for phone in self.phones if phone.value == contact_number]
         return found_phones[0].value
+
+    def remove_phone(self, contact_number: str):
+        phone_to_remove = None
+        for phone in self.phones:
+            if phone.value == contact_number:
+                phone_to_remove = phone
+                break
+
+        if phone_to_remove:
+            self.phones.remove(phone_to_remove)
+            print(f"Phone {contact_number} removed")
+        else:
+            print(f"Phone {contact_number} not found")
 
 
 class AddressBook(UserDict):
